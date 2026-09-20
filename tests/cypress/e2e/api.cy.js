@@ -4,7 +4,7 @@ describe("API Tests", () => {
       cy.request("http://app:3000/api/health")
         .its("body")
         .should("deep.equal", {
-          status: "fail"
+          status: "ok"
         });
     });
   
