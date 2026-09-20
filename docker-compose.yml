@@ -1,4 +1,3 @@
-
 services:
   app:
     build:
@@ -8,16 +7,13 @@ services:
     healthcheck:
       test:
         [
-          "CMD",
-          "wget",
-          "--spider",
-          "-q",
-          "http://localhost:3000/api/health"
+          "CMD-SHELL",
+          "wget -q -O - http://127.0.0.1:3000/api/health > /dev/null || exit 1"
         ]
       interval: 5s
       timeout: 3s
       retries: 10
-      start_period: 5s
+      start_period: 10s
 
   tests:
     build:
