@@ -1,0 +1,75 @@
+
+# QA Automation DevOps Pipeline
+
+## Overview
+
+A containerized REST API and Cypress API testing
+framework integrated with a GitHub Actions CI pipeline.
+
+This project demonstrates automated testing,
+containerization, Docker Compose orchestration,
+and continuous integration.
+
+## Architecture
+
+- Node.js REST API
+- Docker application container
+- Cypress test container
+- Docker Compose networking
+- GitHub Actions CI
+
+## Technologies
+
+- Node.js
+- Express
+- Docker
+- Docker Compose
+- Cypress
+- GitHub Actions
+
+## Application Endpoints
+
+GET /api/health
+
+GET /api/users
+
+## How to Run Locally
+
+### Start the application and tests
+
+```bash
+docker compose up --build
+```
+
+### Stop containers
+
+```bash
+docker compose down
+```
+
+### Run tests
+
+```bash
+docker compose up --build \
+  --abort-on-container-exit \
+  --exit-code-from tests
+```
+
+## CI/CD
+
+The GitHub Actions workflow:
+
+1. Checks out the repository
+2. Builds Docker images
+3. Starts the application
+4. Runs Cypress API tests
+5. Collects logs and test artifacts
+6. Cleans up the environment
+
+## Future Improvements
+
+- Publish images to GHCR
+- Deploy to AWS
+- Add Terraform
+- Add container vulnerability scanning
+- Add monitoring
