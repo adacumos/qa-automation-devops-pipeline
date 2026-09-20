@@ -1,0 +1,47 @@
+
+name: QA DevOps Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Build and Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: docker compose build
+
+      - name: Run application and Cypress tests
+        run: |
+          set -o pipefail
+          docker compose up \
+            --abort-on-container-exit \
+            --exit-code-from tests
+
+      - name: Collect Docker logs
+        if: always()
+        run: docker compose logs --no-color
+
+      - name: Upload Cypress artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            tests/cypress/screenshots
+            tests/cypress/videos
+          if-no-files-found: ignore
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v

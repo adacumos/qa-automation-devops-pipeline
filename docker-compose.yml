@@ -1,0 +1,27 @@
+
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--spider",
+          "-q",
+          "http://localhost:3000/api/health"
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  tests:
+    build:
+      context: ./tests
+    depends_on:
+      app:
+        condition: service_healthy
